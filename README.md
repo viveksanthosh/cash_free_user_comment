@@ -1,5 +1,7 @@
 This app is bootstrapped with [razzle](https://github.com/jaredpalmer/razzle/tree/master).
 
+The code is avaliable on [github](https://github.com/viveksanthosh/cash_free_user_comment/blob/master/README.md)
+
 ## Database
 [Nano-sql](https://nanosql.io/) is used as the data to store the comments and users.
 There are two tables:
