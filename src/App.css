@@ -3,3 +3,17 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+header {
+  padding: 2rem;
+  background: #6b5497;
+  color: white;
+  font-size: 2rem;
+}
+
+.container {
+  padding: 1rem 2rem;
+  background: red;
+  color: white;
+  font-size: 1rem;
+}
