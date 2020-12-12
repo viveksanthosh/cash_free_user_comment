@@ -12,17 +12,28 @@
 .commentBox.nested {
     margin-left: 4rem;
 }
+
 .commentBox .name {
     font-size: 1rem;
     padding-right: 0.5rem;
 }
 
-.commentBox .avatar{
+.commentBox .avatar {
     background: red;
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
     width: 3rem;
     height: 3rem;
     float: left;
     margin-right: 1rem;
+}
+
+.commentBox .avatar span {
+    margin-top: 40%;
+    margin-left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-block;
 }
 
 .commentBox .comment {
@@ -36,7 +47,7 @@
     margin-left: 4rem;
 }
 
-.commentBox .userLink{
+.commentBox .userLink {
     color: blue;
     margin-right: 0.25rem;
 }

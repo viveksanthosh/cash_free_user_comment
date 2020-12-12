@@ -81,10 +81,12 @@ function getDateObj(date) {
     return ({ day, date, ms, month, year, hours, minutes, period })
 }
 
-const CommentBox = ({ comment, user_name, nested, reply_to_user_name, timestamp }) => {
+const CommentBox = ({ comment, user_name, nested, reply_to_user_name, timestamp, user_color }) => {
     return <div className={`commentBox ${nested ? 'nested' : ''}`}>
         <div>
-            <div className='avatar'></div>
+            <div style={{
+                background: user_color
+            }}className='avatar'><span>{user_name.slice(0, 1)}</span></div>
             <b className='name'>{user_name}</b>
             <span className='date'>{formatDate(timestamp)}</span>
             <p className='comment'>

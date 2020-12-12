@@ -16,12 +16,13 @@ class UserCommentRepository {
                         model: {
                             "user_id:int": { pk: true, ai: true },
                             "name:string": {},
+                            "color:string": {},
                         }
                     }, {
                         name: "comments",
                         model: {
                             "comment:string": {},
-                            "timestamp:date":{},
+                            "timestamp:date": {},
                             "user_id:int": {},
                             "reply_to_comment_id:int": {},
                             "reply_to_user:int": {},
@@ -31,10 +32,11 @@ class UserCommentRepository {
                 ],
             }).then(async () => {
                 await nSQL("users")
-                    .query("upsert", [{ name: "vivek" },
-                    { name: "ram" },
-                    { name: "praveen" },
-                    { name: "mohan" },
+                    .query("upsert", [
+                        { color: 'lightblue',name: "vivek" },
+                        { color: 'purple',name: "ram" },
+                        { color: 'red',name: "praveen" },
+                        { color: 'lightgreen',name: "mohan" },
                     ]).exec()
                 await nSQL("comments")
                     .query("upsert", [
@@ -42,7 +44,7 @@ class UserCommentRepository {
                         { timestamp: '2020-12-12T01:10:51.308Z', user_id: 2, comment: 'Great job' },
                         { timestamp: '2020-12-12T02:10:51.308Z', user_id: 3, comment: 'Updating the content would be good' },
 
-                        { timestamp: '2020-12-11T03:10:51.308Z', user_id: 4, comment: 'Thanks a lot', reply_to_comment_id: 1 }, 
+                        { timestamp: '2020-12-11T03:10:51.308Z', user_id: 4, comment: 'Thanks a lot', reply_to_comment_id: 1 },
                         { timestamp: '2020-12-11T03:10:51.308Z', user_id: 4, comment: 'Watch this space', reply_to_comment_id: 3 },
                         { timestamp: '2020-10-12T03:10:51.308Z', user_id: 1, comment: 'I agree', reply_to_comment_id: 3 },
                         { timestamp: '2020-10-12T03:10:51.308Z', user_id: 3, comment: 'Will do', reply_to_comment_id: 3, reply_to_user: 4 },
@@ -67,6 +69,7 @@ class UserCommentRepository {
                 'comments.comment as comment',
                 'comments.user_id as user_id',
                 'comment_users.name as user_name',
+                'comment_users.color as user_color',
                 'comments.reply_to_comment_id as reply_to_comment_id',
                 'reply_users.name as reply_to_user_name',
                 'comments.reply_to_user as reply_to_user_id',
@@ -97,6 +100,7 @@ class UserCommentRepository {
                             comment: e.comment,
                             user_id: e.user_id,
                             user_name: e.user_name,
+                            user_color: e.user_color,
                             timestamp: e.timestamp,
                             reply_to_user_name: e.reply_to_user_name,
                             reply_to_user_id: e.reply_to_user_id
