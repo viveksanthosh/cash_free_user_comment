@@ -1,8 +1,12 @@
 import { Router } from 'express';
-import { userRoutes } from './userRoutes'
+import { usersRouter } from './usersRouter'
+import { commentsRouter } from './commentsRouter'
 const apiRouter = Router();
 
-
-apiRouter.use('/user-comments', userRoutes)
+apiRouter.use('/comments', commentsRouter)
+apiRouter.use('/users', usersRouter)
+apiRouter.use('/*', (req, res) => {
+    res.status(404).send()
+})
 
 export { apiRouter }; 

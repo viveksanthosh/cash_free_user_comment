@@ -53,48 +53,54 @@ class UserCommentRepository {
             })
     }
 
-    getComments() {
+    getAllUsers() {
+        return nSQL('users')
+            .query('select')
+            .exec()
+    }
+
+    getAllComments() {
         return nSQL('comments')
-        .query('select', [
-            'comments.comment_id as comment_id',
-            'comments.comment as comment',
-            'comments.user_id as user_id',
-            'comment_users.name as user_name',
-            'comments.reply_to_comment_id as reply_to_comment_id',
-            'reply_users.name as reply_to_user_name',
-            'comments.reply_to_user as reply_to_user_id',
+            .query('select', [
+                'comments.comment_id as comment_id',
+                'comments.comment as comment',
+                'comments.user_id as user_id',
+                'comment_users.name as user_name',
+                'comments.reply_to_comment_id as reply_to_comment_id',
+                'reply_users.name as reply_to_user_name',
+                'comments.reply_to_user as reply_to_user_id',
 
-        ])
-        .join([{
-            type: "inner",
-            with: { table: "users", as: "comment_users" },
-            on: ["comments.user_id", "=", "comment_users.user_id"]
-        }, {
-            type: "left",
-            with: { table: "users", as: "reply_users" },
-            on: [`reply_users.user_id`, '=', `comments.reply_to_user`]
-        }])
-        .where(['comments.reply_to_comment_id', '=', 'NULL'])
-        .exec()
-        .then(d => {
-            //console.log(d);
-            return Object.values(d.reduce((acc, e) => {
-                console.log(e);
-                if (!e.reply_to_comment_id) {
-                    acc[e.comment_id] = e;
-                    acc[e.comment_id]['replies'] = []
-                } else {
-                    acc[e.reply_to_comment_id]['replies'].push({
-                        comment_id: e.comment_id, 
-                        comment: e.comment, 
-                        reply_to_user_name: e.reply_to_user_name, 
-                        reply_to_user_id: e.reply_to_user_id
-                    })
+            ])
+            .join([{
+                type: "inner",
+                with: { table: "users", as: "comment_users" },
+                on: ["comments.user_id", "=", "comment_users.user_id"]
+            }, {
+                type: "left",
+                with: { table: "users", as: "reply_users" },
+                on: [`reply_users.user_id`, '=', `comments.reply_to_user`]
+            }])
+            .where(['comments.reply_to_comment_id', '=', 'NULL'])
+            .exec()
+            .then(d => {
+                //console.log(d);
+                return Object.values(d.reduce((acc, e) => {
+                    console.log(e);
+                    if (!e.reply_to_comment_id) {
+                        acc[e.comment_id] = e;
+                        acc[e.comment_id]['replies'] = []
+                    } else {
+                        acc[e.reply_to_comment_id]['replies'].push({
+                            comment_id: e.comment_id,
+                            comment: e.comment,
+                            reply_to_user_name: e.reply_to_user_name,
+                            reply_to_user_id: e.reply_to_user_id
+                        })
 
-                }
-                return acc
-            }, {}))
-        })
+                    }
+                    return acc
+                }, {}))
+            })
     }
 
 }

@@ -5,8 +5,11 @@ class UserCommentService {
         this.initilizeData()
     }
 
-    getComments() {
-        return this.userCommentRepository.getComments()
+    getAllComments() {
+        return this.userCommentRepository.getAllComments()
+    }
+    getAllUsers() {
+        return this.userCommentRepository.getAllUsers()
     }
 
     initilizeData(){
