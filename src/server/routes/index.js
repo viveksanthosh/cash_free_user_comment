@@ -3,6 +3,6 @@ import { userRoutes } from './userRoutes'
 const apiRouter = Router();
 
 
-apiRouter.use('/', userRoutes)
+apiRouter.use('/user-comments', userRoutes)
 
 export { apiRouter }; 

@@ -2,10 +2,16 @@ class UserCommentService {
 
     constructor(userCommentRepository) {
         this.userCommentRepository = userCommentRepository
+        this.initilizeData()
     }
 
-    getUserComments(user_id) {
+    getComments() {
+        return this.userCommentRepository.getComments()
+    }
 
+    initilizeData(){
+        this.userCommentRepository.initilizeTables()
+      
     }
 
 }

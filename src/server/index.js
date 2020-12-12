@@ -4,7 +4,6 @@ import express from 'express';
 import { renderToString } from 'react-dom/server';
 import { apiRouter } from './routes'
 
-console.log(apiRouter);
 const assets = require(process.env.RAZZLE_ASSETS_MANIFEST);
 
 const server = express();
