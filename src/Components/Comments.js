@@ -4,6 +4,7 @@ import './Comments.css'
 
 const Comments = () => {
     const [comments, setComments] = useState([])
+    const inputRef = useRef()
     useEffect(() => {
         fetch('/api/comments').then(r => {
             if (!r.ok)
@@ -29,10 +30,22 @@ const Comments = () => {
         })
     }
 
+    const onCommentSubmit = () => {
+        const comment = inputRef.current.value
+        if (!comment)
+            return
+        inputRef.current.value = ''
+        onUserComment({ comment })
+    }
+
     return <section className='comments'>
         {comments.map(c => <div key={c.comment_id}>
             <CommentList onUserComment={onUserComment}  {...c} />
         </div>)}
+        <div className='add-comment'>
+            <textarea ref={inputRef} className='comment-text'></textarea>
+            <button onClick={onCommentSubmit}>Submit</button>
+        </div>
     </section>
 }
 
@@ -133,6 +146,7 @@ const Reply = ({ onUserCommentReply }) => {
         const comment = inputRef.current.value
         if (comment) {
             onUserCommentReply({ comment })
+            inputRef.current.value = ''
         }
         setReplyMode(false)
 

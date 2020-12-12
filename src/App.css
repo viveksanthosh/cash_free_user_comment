@@ -17,6 +17,6 @@ header {
   font-size: 1rem;
 }
 
-input:focus {
+input:focus, textarea:focus {
   outline: 0;
 }

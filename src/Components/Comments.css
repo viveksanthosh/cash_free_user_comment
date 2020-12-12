@@ -1,5 +1,25 @@
 .comments {}
 
+.comments .comment-text {
+    resize: none;
+    margin-top: 2rem;
+    width: 20rem;
+    height: 2rem;
+}
+
+.add-comment button {
+    position: absolute;
+    bottom: 4px;
+    right: -5rem;
+    padding: 0.75rem;
+    border: 1px solid grey;
+    border-radius: 15%;
+}
+.add-comment {
+    position: relative;
+    display: inline-block;
+}
+
 .comments .commentBox {
     padding-top: 1rem;
 }
@@ -47,7 +67,7 @@
     margin-left: 4rem;
 }
 
-.commentBox .reply input{
+.commentBox .reply input {
     border: none;
     border-bottom: 1px solid black;
 }

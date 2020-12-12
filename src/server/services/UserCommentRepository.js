@@ -65,7 +65,7 @@ class UserCommentRepository {
     insertUserCommnet({ user_id, comment, reply_to_comment_id, reply_to_user }) {
 
         const timestamp = (new Date()).toISOString();
-        console.log({ timestamp, user_id, comment, reply_to_comment_id, reply_to_user })
+
         return nSQL("comments")
             .query("upsert", [
                 { timestamp, user_id, comment, reply_to_comment_id, reply_to_user },
@@ -98,9 +98,7 @@ class UserCommentRepository {
             .where(['comments.reply_to_comment_id', '=', 'NULL'])
             .exec()
             .then(d => {
-                console.log(d);
                 return Object.values(d.reduce((acc, e) => {
-                    console.log(e);
                     if (!e.reply_to_comment_id) {
                         acc[e.comment_id] = e;
                         acc[e.comment_id]['replies'] = []
