@@ -11,5 +11,5 @@ usersRouter.get('/', async (req, res) => {
         console.log(e);
     }
 });
-console.log({ usersRouter });
+
 export { usersRouter };

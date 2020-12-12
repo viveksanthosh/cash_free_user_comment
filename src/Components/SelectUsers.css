@@ -1,0 +1,7 @@
+.selectUsers select{
+    width: 15%;
+}
+
+.selectUsers label {
+    padding-right: 1rem;
+}

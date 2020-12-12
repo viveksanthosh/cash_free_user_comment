@@ -11,6 +11,5 @@ commentsRouter.get('/', async (req, res) => {
         console.log(e);
     }
 });
-console.log({commentsRouter});
 
 export { commentsRouter };
