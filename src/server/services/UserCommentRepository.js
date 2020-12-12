@@ -33,10 +33,10 @@ class UserCommentRepository {
             }).then(async () => {
                 await nSQL("users")
                     .query("upsert", [
-                        { color: 'lightblue',name: "vivek" },
-                        { color: 'purple',name: "ram" },
-                        { color: 'red',name: "praveen" },
-                        { color: 'lightgreen',name: "mohan" },
+                        { color: 'lightblue', name: "vivek" },
+                        { color: 'purple', name: "ram" },
+                        { color: 'red', name: "praveen" },
+                        { color: 'lightgreen', name: "mohan" },
                     ]).exec()
                 await nSQL("comments")
                     .query("upsert", [
@@ -60,6 +60,16 @@ class UserCommentRepository {
         return nSQL('users')
             .query('select')
             .exec()
+    }
+
+    insertUserCommnet({ user_id, comment, reply_to_comment_id, reply_to_user }) {
+
+        const timestamp = (new Date()).toISOString();
+        console.log({ timestamp, user_id, comment, reply_to_comment_id, reply_to_user })
+        return nSQL("comments")
+            .query("upsert", [
+                { timestamp, user_id, comment, reply_to_comment_id, reply_to_user },
+            ]).exec()
     }
 
     getAllComments() {
@@ -99,6 +109,7 @@ class UserCommentRepository {
                             comment_id: e.comment_id,
                             comment: e.comment,
                             user_id: e.user_id,
+                            parent_comment_id: acc[e.reply_to_comment_id].comment_id,
                             user_name: e.user_name,
                             user_color: e.user_color,
                             timestamp: e.timestamp,

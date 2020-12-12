@@ -12,4 +12,14 @@ commentsRouter.get('/', async (req, res) => {
     }
 });
 
+commentsRouter.post('/', async (req, res) => {
+    try {
+       await userCommentService.insertUserCommnet(req.body)
+       const comments = await userCommentService.getAllComments()
+       res.json(comments);
+    } catch (e) {
+        console.log(e);
+    }
+});
+
 export { commentsRouter };

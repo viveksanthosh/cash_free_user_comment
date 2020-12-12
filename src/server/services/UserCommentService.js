@@ -8,13 +8,17 @@ class UserCommentService {
     getAllComments() {
         return this.userCommentRepository.getAllComments()
     }
+
+    insertUserCommnet(payload) {
+        return this.userCommentRepository.insertUserCommnet(payload)
+    }
+
     getAllUsers() {
         return this.userCommentRepository.getAllUsers()
     }
 
     initilizeData(){
         this.userCommentRepository.initilizeTables()
-      
     }
 
 }

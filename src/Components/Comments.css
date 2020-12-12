@@ -47,7 +47,20 @@
     margin-left: 4rem;
 }
 
+.commentBox .reply input{
+    border: none;
+    border-bottom: 1px solid black;
+}
+
 .commentBox .userLink {
     color: blue;
     margin-right: 0.25rem;
 }
+
+/*
+font-size: 0.75rem;
+    color: grey;
+    margin-left: 4rem;
+    border: none;
+    border-bottom: 1px solid black;
+*/

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useRef } from 'react'
+import { SelectedUserContext } from '../contexts'
 import './Comments.css'
 
-const Comments = ({ selectedUser, onSelectedUserChange }) => {
+const Comments = () => {
     const [comments, setComments] = useState([])
     useEffect(() => {
         fetch('/api/comments').then(r => {
@@ -13,10 +14,24 @@ const Comments = ({ selectedUser, onSelectedUserChange }) => {
         })
     }, [])
 
-    console.log({ comments });
+    const user_id = useContext(SelectedUserContext)
+    const onUserComment = (data) => {
+        data.user_id = user_id;
+
+        return fetch('/api/comments', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(r => r.json()).then(d => {
+            setComments(d)
+        })
+    }
+
     return <section className='comments'>
         {comments.map(c => <div key={c.comment_id}>
-            <CommentList  {...c} />
+            <CommentList onUserComment={onUserComment}  {...c} />
         </div>)}
     </section>
 }
@@ -26,9 +41,9 @@ export { Comments }
 const CommentList = (props) => {
 
     return <div>
-        <CommentBox {...props} />
+        <CommentBox onUserComment={props.onUserComment} {...props} />
         {props.replies && props.replies.map(r => {
-            return <CommentBox nested key={r.comment_id} {...r} />
+            return <CommentBox onUserComment={props.onUserComment} nested key={r.comment_id} {...r} />
         })}
     </div>
 }
@@ -81,12 +96,23 @@ function getDateObj(date) {
     return ({ day, date, ms, month, year, hours, minutes, period })
 }
 
-const CommentBox = ({ comment, user_name, nested, reply_to_user_name, timestamp, user_color }) => {
+const CommentBox = ({ comment, user_name, nested, reply_to_user_name, timestamp, user_color,
+    onUserComment, comment_id, user_id, parent_comment_id }) => {
+    const onUserCommentReply = (data) => {
+
+        if (nested) {
+            data.reply_to_user = user_id
+            data.reply_to_comment_id = parent_comment_id
+        }
+        else
+            data.reply_to_comment_id = comment_id
+        onUserComment(data)
+    }
     return <div className={`commentBox ${nested ? 'nested' : ''}`}>
         <div>
             <div style={{
                 background: user_color
-            }}className='avatar'><span>{user_name.slice(0, 1)}</span></div>
+            }} className='avatar'><span>{user_name.slice(0, 1)}</span></div>
             <b className='name'>{user_name}</b>
             <span className='date'>{formatDate(timestamp)}</span>
             <p className='comment'>
@@ -95,6 +121,22 @@ const CommentBox = ({ comment, user_name, nested, reply_to_user_name, timestamp,
                 }} className='userLink'>@{reply_to_user_name}</a>}
                 {comment}</p>
         </div>
-        <span className='reply'>Reply</span>
+        <Reply onUserCommentReply={onUserCommentReply} />
     </div>
+}
+
+const Reply = ({ onUserCommentReply }) => {
+    const [replyMode, setReplyMode] = useState(false)
+    const inputRef = useRef()
+    const openReply = () => setReplyMode(true)
+    const onSubmit = () => {
+        const comment = inputRef.current.value
+        if (comment) {
+            onUserCommentReply({ comment })
+        }
+        setReplyMode(false)
+
+    }
+    return <div className='reply'>{replyMode ? <><input autoFocus ref={inputRef} /> <button onClick={onSubmit}>Send</button> </> :
+        <span onClick={openReply}>Reply</span>}</div>
 }
