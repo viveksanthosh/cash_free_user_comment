@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import './selectUsers.css'
+import './SelectUsers.css'
 
 const SelectUsers = ({ selectedUser, onSelectedUserChange }) => {
     const [users, setUsers] = useState([])
@@ -16,12 +16,13 @@ const SelectUsers = ({ selectedUser, onSelectedUserChange }) => {
         const user_id = e?.target?.value
         onSelectedUserChange(user_id)
     }
+
     return <section className='selectUsers'>
         <label>Comment As</label>
-        <select onChange={onSelectChange} >{users.map(u => <option
+        <select value={selectedUser ? selectedUser : ''} onChange={onSelectChange} >{users.map(u => <option
             key={u.user_id}
             value={u.user_id}
-            selected={u.user_id === selectedUser}
+
         >
             {u.name}
         </option>)}

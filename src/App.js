@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SelectUsers } from './Components'
+import { SelectUsers, Comments } from './Components'
 import './App.css';
 
 const App = () => {
@@ -12,6 +12,7 @@ const App = () => {
     <div className='container'>
       <SelectUsers selectedUser={selectedUser}
         onSelectedUserChange={onSelectedUserChange} />
+      <Comments />
     </div>
     <footer></footer>
   </>

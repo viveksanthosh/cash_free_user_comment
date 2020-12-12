@@ -83,7 +83,7 @@ class UserCommentRepository {
             .where(['comments.reply_to_comment_id', '=', 'NULL'])
             .exec()
             .then(d => {
-                //console.log(d);
+                console.log(d);
                 return Object.values(d.reduce((acc, e) => {
                     console.log(e);
                     if (!e.reply_to_comment_id) {
@@ -93,6 +93,8 @@ class UserCommentRepository {
                         acc[e.reply_to_comment_id]['replies'].push({
                             comment_id: e.comment_id,
                             comment: e.comment,
+                            user_id: e.user_id,
+                            user_name: e.user_name,
                             reply_to_user_name: e.reply_to_user_name,
                             reply_to_user_id: e.reply_to_user_id
                         })
