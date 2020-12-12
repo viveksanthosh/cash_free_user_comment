@@ -21,6 +21,7 @@ class UserCommentRepository {
                         name: "comments",
                         model: {
                             "comment:string": {},
+                            "timestamp:date":{},
                             "user_id:int": {},
                             "reply_to_comment_id:int": {},
                             "reply_to_user:int": {},
@@ -37,14 +38,14 @@ class UserCommentRepository {
                     ]).exec()
                 await nSQL("comments")
                     .query("upsert", [
-                        { user_id: 1, comment: 'This is awesome' },
-                        { user_id: 2, comment: 'Great job' },
-                        { user_id: 3, comment: 'Updating the content would be good' },
+                        { timestamp: '2020-12-12T03:10:51.308Z', user_id: 1, comment: 'This is awesome' },
+                        { timestamp: '2020-12-12T01:10:51.308Z', user_id: 2, comment: 'Great job' },
+                        { timestamp: '2020-12-12T02:10:51.308Z', user_id: 3, comment: 'Updating the content would be good' },
 
-                        { user_id: 4, comment: 'Thanks a lot', reply_to_comment_id: 1 },
-                        { user_id: 4, comment: 'Watch this space', reply_to_comment_id: 3 },
-                        { user_id: 1, comment: 'I agree', reply_to_comment_id: 3 },
-                        { user_id: 3, comment: 'Will do', reply_to_comment_id: 3, reply_to_user: 4 },
+                        { timestamp: '2020-12-11T03:10:51.308Z', user_id: 4, comment: 'Thanks a lot', reply_to_comment_id: 1 }, 
+                        { timestamp: '2020-12-11T03:10:51.308Z', user_id: 4, comment: 'Watch this space', reply_to_comment_id: 3 },
+                        { timestamp: '2020-10-12T03:10:51.308Z', user_id: 1, comment: 'I agree', reply_to_comment_id: 3 },
+                        { timestamp: '2020-10-12T03:10:51.308Z', user_id: 3, comment: 'Will do', reply_to_comment_id: 3, reply_to_user: 4 },
                     ]).exec()
                 //let users = await nSQL("users").query("select").exec()
                 //let comments = await nSQL("comments").query("select").exec()
@@ -69,6 +70,7 @@ class UserCommentRepository {
                 'comments.reply_to_comment_id as reply_to_comment_id',
                 'reply_users.name as reply_to_user_name',
                 'comments.reply_to_user as reply_to_user_id',
+                'comments.timestamp as timestamp'
 
             ])
             .join([{
@@ -95,6 +97,7 @@ class UserCommentRepository {
                             comment: e.comment,
                             user_id: e.user_id,
                             user_name: e.user_name,
+                            timestamp: e.timestamp,
                             reply_to_user_name: e.reply_to_user_name,
                             reply_to_user_id: e.reply_to_user_id
                         })
