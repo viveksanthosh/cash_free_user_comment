@@ -30,3 +30,5 @@ The UI is build with react. The entry point is App.js, while a majority of the l
 - Users can add comments via the text area in the bottom of the screen
 - Users can reply to comments, these comments appear nested
 - Users can reply to nested comments, these comments reference the user they are replying to 
+- The replying user can be changed by changing the dropdown value
+- As nano-sql is an inmemory db, new comments are presistant till the app is stopped and restarted. The data persists during a reqular restart
